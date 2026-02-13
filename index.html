@@ -1,549 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beads Designer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
+    <!-- Primary Meta Tags -->
+    <title>Beads Designer - Crie designs de Perler/Hama Beads online</title>
+    <meta name="title" content="Beads Designer - Crie designs de Perler/Hama Beads online">
+    <meta name="description"
+        content="Ferramenta online gratuita para criar designs de Perler Beads e Hama Beads em escala real. Planeje seus projetos de artesanato com precisão de 6.5cm.">
+    <meta name="keywords"
+        content="perler beads, hama beads, beads designer, artesanato, pixel art, design beads, ferramenta beads, criar beads">
+    <meta name="author" content="Beads Designer">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Portuguese">
 
-        h1 {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Beads Designer - Crie designs de Perler/Hama Beads online">
+    <meta property="og:description"
+        content="Ferramenta online gratuita para criar designs de Perler Beads e Hama Beads em escala real. Planeje seus projetos de artesanato com precisão.">
+    <meta property="og:image" content="social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Beads Designer">
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            display: flex;
-            gap: 30px;
-            max-width: 1400px;
-        }
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://beadsdesigner.app/">
+    <meta name="twitter:title" content="Beads Designer - Crie designs de Perler/Hama Beads online">
+    <meta name="twitter:description"
+        content="Ferramenta online gratuita para criar designs de Perler Beads e Hama Beads em escala real. Planeje seus projetos de artesanato com precisão.">
+    <meta name="twitter:image" content="https://beadsdesigner.app/social-preview.png">
 
-        .left-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    <!-- LinkedIn -->
+    <meta property="og:image:alt" content="Beads Designer - Interface de design de Perler/Hama Beads">
 
-        .canvas-container {
-            border: 3px solid #333;
-            border-radius: 10px;
-            background: #f0f0f0;
-            padding: 10px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        canvas {
-            display: block;
-            cursor: crosshair;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .btn-clear {
-            background: #ff4757;
-            color: white;
-        }
-
-        .btn-clear:hover {
-            background: #ff3838;
-        }
-
-        .btn-export {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .btn-export:hover {
-            background: #27ae60;
-        }
-
-        .right-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            min-width: 250px;
-        }
-
-        .section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .section h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.2em;
-        }
-
-        .color-palette {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .color-btn {
-            width: 50px;
-            height: 50px;
-            border: 3px solid transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .color-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        .color-btn.selected {
-            border-color: #000;
-            border-width: 4px;
-            transform: scale(1.15);
-        }
-
-        .eraser-btn {
-            width: 100%;
-            padding: 15px;
-            background: white;
-            border: 3px solid #e74c3c;
-            color: #e74c3c;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .eraser-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(231, 76, 60, 0.1) 10px,
-                rgba(231, 76, 60, 0.1) 20px
-            );
-        }
-
-        .eraser-btn:hover {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .eraser-btn.selected {
-            background: #e74c3c;
-            color: white;
-            border-width: 4px;
-        }
-
-        .current-tool {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-        }
-
-        .tool-indicator {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .tool-indicator.eraser {
-            background: repeating-linear-gradient(
-                45deg,
-                #e74c3c,
-                #e74c3c 10px,
-                white 10px,
-                white 20px
-            );
-        }
-
-        .tool-label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .right-panel {
-                min-width: 100%;
-            }
-        }
-    </style>
+    <!-- PWA -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Beads Designer">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Beads Designer",
+      "description": "Ferramenta online gratuita para criar designs de Perler Beads e Hama Beads em escala real",
+      "url": "https://beadsdesigner.app/",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      "featureList": [
+        "Grid 24x24 em escala real (6.5cm)",
+        "24 cores oficiais Hama Beads",
+        "Exportar preview PNG",
+        "Salvar e carregar projetos",
+        "Funciona offline (PWA)"
+      ],
+      "screenshot": "https://beadsdesigner.app/social-preview.png",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0",
+      "author": {
+        "@type": "Organization",
+        "name": "Beads Designer"
+      }
+    }
+    </script>
 </head>
+
 <body>
-    <h1>Beads Designer</h1>
-    
-    <div class="container">
+    <h1 role="banner">Beads Designer</h1>
+
+    <div class="container" role="main">
         <div class="left-panel">
             <div class="canvas-container">
-                <canvas id="beadsCanvas"></canvas>
+                <canvas id="beadsCanvas" role="img" aria-label="Grid de design de beads 24x24"></canvas>
+                <div style="text-align: center; margin-top: 10px; color: #666; font-size: 12px;">
+                    📏 Escala Real: 6.5cm × 6.5cm (24×24 furos)
+                </div>
             </div>
-            
-            <div class="controls">
-                <button class="btn-clear" id="clearBtn">🗑️ Apagar Tudo</button>
-                <button class="btn-export" id="exportBtn">📸 Exportar Preview</button>
+
+            <div class="controls actions-grid" role="toolbar" aria-label="Controles principais">
+                <button type="button" class="btn-clear" id="clearBtn" aria-label="Apagar todos os beads">🗑️ Apagar
+                    Tudo</button>
+                <button type="button" class="btn-export" id="exportBtn" aria-label="Exportar preview como PNG">📸
+                    Exportar Preview</button>
+                <button type="button" class="btn-save" id="saveBtn" aria-label="Exportar projeto como JSON">📤 Exportar
+                    Projeto</button>
+                <button type="button" class="btn-load" id="loadBtn" aria-label="Carregar projeto JSON">📂 Abrir
+                    Projeto</button>
+                <button type="button" class="btn-save" id="saveLocalBtn">💾 Salvar Local</button>
+                <button type="button" class="btn-load" id="projectsBtn">📚 Projetos</button>
+
             </div>
         </div>
-        
+
         <div class="right-panel">
             <div class="section">
-                <h3>Ferramenta Atual</h3>
-                <div class="current-tool">
-                    <div id="toolIndicator" class="tool-indicator"></div>
+                <h3 id="current-tool-heading">Ferramenta Atual</h3>
+                <div class="current-tool" role="status" aria-labelledby="current-tool-heading" aria-live="polite">
+                    <div id="toolIndicator" class="tool-indicator" aria-hidden="true"></div>
                     <div class="tool-label" id="toolLabel">Cor Selecionada</div>
                 </div>
             </div>
-            
+
             <div class="section">
-                <h3>Paleta de Cores</h3>
-                <div class="color-palette" id="colorPalette"></div>
+                <h3 id="color-palette-heading">Paleta de Cores</h3>
+                <div class="color-palette" id="colorPalette" role="radiogroup" aria-labelledby="color-palette-heading">
+                </div>
             </div>
-            
+
             <div class="section">
-                <button class="eraser-btn" id="eraserBtn">
+                <button type="button" class="eraser-btn" id="eraserBtn" role="radio" aria-label="Ferramenta borracha">
                     <span style="position: relative; z-index: 1;">🧹 BORRACHA</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <script>
-        // ========== CONFIGURAÇÕES ==========
-        const CONFIG = {
-            gridSize: 24,
-            cellSize: 25,
-            beadRadius: 12,
-            holeRadius: 3,
-            colors: [
-                '#FFFFFF', // Branco
-                '#000000', // Preto
-                '#FF0000', // Vermelho
-                '#00FF00', // Verde
-                '#0000FF', // Azul
-                '#FFFF00', // Amarelo
-                '#FF00FF', // Magenta
-                '#00FFFF', // Ciano
-                '#FFA500', // Laranja
-                '#800080', // Roxo
-                '#FFC0CB', // Rosa
-                '#A52A2A', // Marrom
-                '#808080', // Cinza
-                '#90EE90', // Verde Claro
-                '#FFB6C1', // Rosa Claro
-                '#4169E1', // Azul Royal
-            ]
-        };
+    <input type="file" id="loadInput" accept=".json" style="display: none;" aria-hidden="true">
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <span id="modalTitle"></span>
+                <button id="modalClose">✖</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
 
-        // ========== ESTADO DA APLICAÇÃO ==========
-        const state = {
-            grid: Array(CONFIG.gridSize).fill(null).map(() => Array(CONFIG.gridSize).fill(null)),
-            selectedColor: CONFIG.colors[0],
-            isEraser: false
-        };
-
-        // ========== ELEMENTOS DO DOM ==========
-        const canvas = document.getElementById('beadsCanvas');
-        const ctx = canvas.getContext('2d');
-        const colorPalette = document.getElementById('colorPalette');
-        const toolIndicator = document.getElementById('toolIndicator');
-        const toolLabel = document.getElementById('toolLabel');
-        const eraserBtn = document.getElementById('eraserBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const exportBtn = document.getElementById('exportBtn');
-
-        // ========== INICIALIZAÇÃO ==========
-        function init() {
-            // Configurar tamanho do canvas
-            canvas.width = CONFIG.gridSize * CONFIG.cellSize;
-            canvas.height = CONFIG.gridSize * CONFIG.cellSize;
-
-            // Criar paleta de cores
-            CONFIG.colors.forEach((color, index) => {
-                const btn = document.createElement('div');
-                btn.className = 'color-btn';
-                btn.style.backgroundColor = color;
-                if (index === 0) btn.classList.add('selected');
-                btn.onclick = () => selectColor(color);
-                colorPalette.appendChild(btn);
-            });
-
-            // Adicionar event listeners para os botões
-            eraserBtn.addEventListener('click', selectEraser);
-            clearBtn.addEventListener('click', clearAll);
-            exportBtn.addEventListener('click', exportPreview);
-
-            // Desenhar gabarito inicial
-            drawGrid();
-            updateToolIndicator();
-        }
-
-        // ========== DESENHO ==========
-        function drawGrid() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Desenhar gabarito (pinos)
-            ctx.fillStyle = '#cccccc';
-            for (let row = 0; row < CONFIG.gridSize; row++) {
-                for (let col = 0; col < CONFIG.gridSize; col++) {
-                    const x = col * CONFIG.cellSize + CONFIG.cellSize / 2;
-                    const y = row * CONFIG.cellSize + CONFIG.cellSize / 2;
-                    
-                    // Desenhar pino
-                    ctx.beginPath();
-                    ctx.arc(x, y, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            // Desenhar beads
-            for (let row = 0; row < CONFIG.gridSize; row++) {
-                for (let col = 0; col < CONFIG.gridSize; col++) {
-                    if (state.grid[row][col]) {
-                        drawBead(row, col, state.grid[row][col]);
-                    }
-                }
-            }
-        }
-
-        function drawBead(row, col, color) {
-            const x = col * CONFIG.cellSize + CONFIG.cellSize / 2;
-            const y = row * CONFIG.cellSize + CONFIG.cellSize / 2;
-
-            // Desenhar bead (círculo colorido)
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(x, y, CONFIG.beadRadius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Adicionar borda para dar profundidade
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-
-            // Adicionar brilho
-            const gradient = ctx.createRadialGradient(
-                x - 3, y - 3, 0,
-                x, y, CONFIG.beadRadius
-            );
-            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            ctx.fillStyle = gradient;
-            ctx.fill();
-
-            // Desenhar furinho no meio (branco/transparente)
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(x, y, CONFIG.holeRadius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Borda do furinho
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-        }
-
-        // ========== INTERAÇÃO ==========
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const col = Math.floor(x / CONFIG.cellSize);
-            const row = Math.floor(y / CONFIG.cellSize);
-
-            if (row >= 0 && row < CONFIG.gridSize && col >= 0 && col < CONFIG.gridSize) {
-                if (state.isEraser) {
-                    state.grid[row][col] = null;
-                } else {
-                    state.grid[row][col] = state.selectedColor;
-                }
-                drawGrid();
-            }
-        });
-
-        // ========== SELEÇÃO DE FERRAMENTAS ==========
-        function selectColor(color) {
-            state.selectedColor = color;
-            state.isEraser = false;
-
-            // Atualizar UI
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.classList.remove('selected');
-                if (btn.style.backgroundColor === color || 
-                    rgbToHex(btn.style.backgroundColor) === color) {
-                    btn.classList.add('selected');
-                }
-            });
-            eraserBtn.classList.remove('selected');
-            updateToolIndicator();
-        }
-
-        function selectEraser() {
-            state.isEraser = true;
-
-            // Atualizar UI
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            eraserBtn.classList.add('selected');
-            updateToolIndicator();
-        }
-
-        function updateToolIndicator() {
-            if (state.isEraser) {
-                toolIndicator.className = 'tool-indicator eraser';
-                toolLabel.textContent = 'Borracha';
-            } else {
-                toolIndicator.className = 'tool-indicator';
-                toolIndicator.style.backgroundColor = state.selectedColor;
-                toolLabel.textContent = 'Cor Selecionada';
-            }
-        }
-
-        // ========== FUNÇÕES AUXILIARES ==========
-        function clearAll() {
-            if (confirm('Tem certeza que deseja apagar todos os beads?')) {
-                state.grid = Array(CONFIG.gridSize).fill(null).map(() => Array(CONFIG.gridSize).fill(null));
-                drawGrid();
-            }
-        }
-
-        function exportPreview() {
-            // Criar canvas temporário para preview
-            const previewCanvas = document.createElement('canvas');
-            const previewCtx = previewCanvas.getContext('2d');
-            
-            previewCanvas.width = CONFIG.gridSize * CONFIG.cellSize;
-            previewCanvas.height = CONFIG.gridSize * CONFIG.cellSize;
-
-            // Fundo branco
-            previewCtx.fillStyle = 'white';
-            previewCtx.fillRect(0, 0, previewCanvas.width, previewCanvas.height);
-
-            // Desenhar apenas os beads (sem gabarito)
-            for (let row = 0; row < CONFIG.gridSize; row++) {
-                for (let col = 0; col < CONFIG.gridSize; col++) {
-                    if (state.grid[row][col]) {
-                        const x = col * CONFIG.cellSize + CONFIG.cellSize / 2;
-                        const y = row * CONFIG.cellSize + CONFIG.cellSize / 2;
-                        const color = state.grid[row][col];
-
-                        // Desenhar bead
-                        previewCtx.fillStyle = color;
-                        previewCtx.beginPath();
-                        previewCtx.arc(x, y, CONFIG.beadRadius, 0, Math.PI * 2);
-                        previewCtx.fill();
-
-                        // Borda
-                        previewCtx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-                        previewCtx.lineWidth = 1;
-                        previewCtx.stroke();
-
-                        // Brilho
-                        const gradient = previewCtx.createRadialGradient(
-                            x - 3, y - 3, 0,
-                            x, y, CONFIG.beadRadius
-                        );
-                        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                        previewCtx.fillStyle = gradient;
-                        previewCtx.fill();
-
-                        // Furinho
-                        previewCtx.fillStyle = 'white';
-                        previewCtx.beginPath();
-                        previewCtx.arc(x, y, CONFIG.holeRadius, 0, Math.PI * 2);
-                        previewCtx.fill();
-
-                        previewCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-                        previewCtx.lineWidth = 0.5;
-                        previewCtx.stroke();
-                    }
-                }
-            }
-
-            // Download da imagem
-            const link = document.createElement('a');
-            link.download = `beads-preview-${Date.now()}.png`;
-            link.href = previewCanvas.toDataURL();
-            link.click();
-        }
-
-        function rgbToHex(rgb) {
-            if (rgb.startsWith('#')) return rgb;
-            const matches = rgb.match(/\d+/g);
-            if (!matches) return rgb;
-            return '#' + matches.map(x => {
-                const hex = parseInt(x).toString(16);
-                return hex.length === 1 ? '0' + hex : hex;
-            }).join('').toUpperCase();
-        }
-
-        // ========== INICIAR APLICAÇÃO ==========
-        init();
-    </script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
+
 </html>
