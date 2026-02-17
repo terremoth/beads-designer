@@ -10,22 +10,34 @@
   "categories": ["design", "art", "crafts"],
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "img/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "img/icon-512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/icon-64.png",
+      "sizes": "64x64",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "social-preview.png",
-      "sizes": "1200x630",
+      "src": "img/logo.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "form_factor": "wide"
     }
